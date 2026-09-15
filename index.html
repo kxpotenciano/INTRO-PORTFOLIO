@@ -4,6 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kirk Potenciano — Developer</title>
+<meta name="description" content="Kirk Xavier Potenciano — developer with an eye for design. Frontend development, e-commerce, and product design work.">
+
+<!-- Favicon -->
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<meta name="theme-color" content="#22333D">
+
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kirk Potenciano — Developer">
+<meta property="og:description" content="Developer with an eye for design. Frontend development, e-commerce, and product design work.">
+<meta property="og:image" content="og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Kirk Potenciano — Developer">
+<meta name="twitter:description" content="Developer with an eye for design. Frontend development, e-commerce, and product design work.">
+<meta name="twitter:image" content="og-image.jpg">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -421,6 +445,111 @@
   footer .btn-ghost{color:var(--paper);border-color:rgba(250,250,249,0.5);}
   footer .btn-ghost:hover{background:var(--paper);color:var(--blue-ink);}
 
+  /* ---------- Boot screen ---------- */
+  #boot{
+    position:fixed;inset:0;z-index:200;
+    background:var(--blue-ink);
+    display:flex;align-items:center;justify-content:center;
+    transition:opacity .5s ease, visibility .5s ease;
+  }
+  #boot.hide{opacity:0;visibility:hidden;pointer-events:none;}
+  #boot pre{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;line-height:1.9;
+    color:var(--blue-soft);
+    white-space:pre-wrap;
+    max-width:520px;
+    padding:0 24px;
+  }
+  #boot .boot-cursor{
+    display:inline-block;width:7px;height:14px;
+    background:var(--blue-soft);
+    vertical-align:-2px;
+    animation:blink 0.9s step-end infinite;
+  }
+
+  /* ---------- Resume preview modal ---------- */
+  .resume-modal{
+    position:fixed;inset:0;z-index:150;
+    display:flex;align-items:center;justify-content:center;
+    padding:24px;
+    opacity:0;visibility:hidden;
+    transition:opacity .25s ease, visibility .25s ease;
+  }
+  .resume-modal.open{opacity:1;visibility:visible;}
+  .resume-modal-backdrop{
+    position:absolute;inset:0;
+    background:rgba(21,21,21,0.72);
+    backdrop-filter:blur(2px);
+  }
+  .resume-modal-panel{
+    position:relative;
+    background:var(--white);
+    width:min(760px, 100%);
+    height:min(88vh, 900px);
+    display:flex;flex-direction:column;
+    box-shadow:0 24px 60px rgba(0,0,0,0.35);
+    transform:translateY(12px) scale(.98);
+    transition:transform .25s ease;
+  }
+  .resume-modal.open .resume-modal-panel{transform:translateY(0) scale(1);}
+  .resume-modal-bar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 18px;
+    border-bottom:1px solid var(--gray-line);
+    color:var(--gray-mid);
+  }
+  .resume-modal-close{
+    background:none;border:none;cursor:pointer;
+    font-size:16px;color:var(--gray-mid);
+    line-height:1;padding:4px 8px;
+    transition:color .15s ease;
+  }
+  .resume-modal-close:hover{color:var(--ink);}
+  .resume-modal-panel iframe{flex:1;width:100%;border:none;}
+  .view-resume-trigger{cursor:pointer;}
+
+  /* ---------- Jasmine popup ---------- */
+  .jasmine-trigger{
+    cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3E%3Cellipse cx='15' cy='19' rx='7.5' ry='6.5' fill='%2322333D'/%3E%3Cellipse cx='6' cy='10' rx='3' ry='4' fill='%2322333D'/%3E%3Cellipse cx='13' cy='5.5' rx='3' ry='4' fill='%2322333D'/%3E%3Cellipse cx='20' cy='5.5' rx='3' ry='4' fill='%2322333D'/%3E%3Cellipse cx='26' cy='11.5' rx='3' ry='4' fill='%2322333D' transform='rotate(20 26 11.5)'/%3E%3C/svg%3E") 15 15, pointer;
+  }
+  .jasmine-modal{
+    position:fixed;inset:0;z-index:150;
+    display:flex;align-items:center;justify-content:center;
+    padding:24px;
+    opacity:0;visibility:hidden;
+    transition:opacity .25s ease, visibility .25s ease;
+  }
+  .jasmine-modal.open{opacity:1;visibility:visible;}
+  .jasmine-modal-backdrop{
+    position:absolute;inset:0;
+    background:rgba(21,21,21,0.72);
+    backdrop-filter:blur(2px);
+  }
+  .jasmine-modal-panel{
+    position:relative;
+    background:var(--white);
+    width:min(380px, 100%);
+    padding:14px;
+    box-shadow:0 24px 60px rgba(0,0,0,0.35);
+    transform:translateY(12px) scale(.98);
+    transition:transform .25s ease;
+    text-align:center;
+  }
+  .jasmine-modal.open .jasmine-modal-panel{transform:translateY(0) scale(1);}
+  .jasmine-modal-panel img{
+    width:100%;display:block;
+    margin-bottom:14px;
+  }
+  .jasmine-modal-caption{color:var(--gray-mid);font-size:13px;margin-bottom:10px;}
+  .jasmine-modal-close{
+    background:var(--ink);color:var(--white);border:none;cursor:pointer;
+    font-size:12.5px;font-family:'JetBrains Mono',monospace;
+    padding:8px 18px;
+    transition:background .15s ease;
+  }
+  .jasmine-modal-close:hover{background:var(--blue-ink);}
+
   /* ---------- Responsive ---------- */
   @media (max-width:760px){
     .wrap{padding:0 22px;}
@@ -448,6 +577,30 @@
 </style>
 </head>
 <body>
+
+<div id="boot">
+  <pre id="bootText"></pre>
+</div>
+
+<div class="resume-modal" id="resumeModal">
+  <div class="resume-modal-backdrop" data-close></div>
+  <div class="resume-modal-panel">
+    <div class="resume-modal-bar mono">
+      <span>RESUME_PREVIEW.PDF</span>
+      <button class="resume-modal-close" data-close aria-label="Close preview">✕</button>
+    </div>
+    <iframe id="resumeFrame" title="Kirk Potenciano — Résumé preview"></iframe>
+  </div>
+</div>
+
+<div class="jasmine-modal" id="jasmineModal">
+  <div class="jasmine-modal-backdrop" data-close-jasmine></div>
+  <div class="jasmine-modal-panel">
+    <img src="jasmine.jpg" alt="Jasmine the Pomeranian, smiling">
+    <p class="jasmine-modal-caption mono">Jasmine — chief of morale, professional good girl.</p>
+    <button class="jasmine-modal-close" data-close-jasmine>CLOSE</button>
+  </div>
+</div>
 
 <header>
   <div class="wrap header-inner">
@@ -485,6 +638,7 @@
       </p>
       <div class="cta-row">
         <a class="btn btn-primary" href="RESUME - POTENCIANO KIRK XAVIER.pdf" download>Download résumé</a>
+        <a class="btn btn-ghost view-resume-trigger" data-view-resume>View résumé</a>
         <a class="btn btn-ghost" href="#contact">Get in touch</a>
       </div>
     </div>
@@ -616,42 +770,46 @@
           </div>
         </a>
 
-        <div class="work-card">
+        <a class="work-card" href="https://ecommerce.datablitz.com.ph/pages/real-elite-masterline-the-last-of-us-part-i-ellie-pre-order" target="_blank" rel="noopener">
           <div class="img-wrap"><img src="banner-ellie.jpg" alt="The Last of Us Ellie Real Elite Masterline statue pre-order banner"></div>
           <div class="cap mono">
             <span class="brand">REAL ELITE MASTERLINE</span>
             <span class="desc">Ellie (The Last of Us) — pre-order banner</span>
+            <span class="view">View live listing ↗</span>
           </div>
-        </div>
+        </a>
       </div>
     </div>
 
     <div class="work-group">
       <span class="mono work-group-label">SQUARE / PRODUCT CARDS</span>
       <div class="work-scroll">
-        <div class="work-card square">
+        <a class="work-card square" href="https://ecommerce.datablitz.com.ph/products/prisma-wing-date-a-live-tohka-yatogami-succubus-1-7-scale-pre-painted-figure-pre-order-downpayment" target="_blank" rel="noopener">
           <div class="img-wrap"><img src="banner-tohka.jpg" alt="Prime 1 Studio Tohka Yatogami Succubus figure pre-order banner"></div>
           <div class="cap mono">
             <span class="brand">PRIME 1 STUDIO</span>
             <span class="desc">Tohka Yatogami "Succubus" — pre-order banner</span>
+            <span class="view">View live listing ↗</span>
           </div>
-        </div>
+        </a>
 
-        <div class="work-card square">
+        <a class="work-card square" href="https://ecommerce.datablitz.com.ph/products/asus-proart-px13-hn7306eac-lx075wsm-laptop-nano-black-13-3-3k-2880x1800-oled-60hz-ryzen-ai-max-395-128gb-ram-1tb-ssd-amd-radeon-graphics-windows-11-home-ms-office-home-2024-ms-365-basic-sleeve-stylus-pen" target="_blank" rel="noopener">
           <div class="img-wrap"><img src="banner-asus-proart.jpg" alt="ASUS ProArt PX13 laptop bundle promotional banner"></div>
           <div class="cap mono">
             <span class="brand">ASUS</span>
             <span class="desc">ProArt PX13 — free bundle banner</span>
+            <span class="view">View live listing ↗</span>
           </div>
-        </div>
+        </a>
 
-        <div class="work-card square">
+        <a class="work-card square" href="https://ecommerce.datablitz.com.ph/collections/all/products/hp-omen-max-16-ah0559tx-gaming-laptop-shadow-black-16-wqxga-2560x1600-240hz-ips-core-ultra-7-255hx-32gb-ram-1tb-ssd-rtx-5070-ti-windows-11-home-ms-office-home-2024-hp-everyday-16-laptop-briefcase" target="_blank" rel="noopener">
           <div class="img-wrap"><img src="banner-omen.jpg" alt="HP OMEN Max 16 gaming laptop bundle promotional banner"></div>
           <div class="cap mono">
             <span class="brand">HP</span>
             <span class="desc">OMEN Max 16 — free bundle banner</span>
+            <span class="view">View live listing ↗</span>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   </div>
@@ -788,7 +946,7 @@
     <div class="skill-group" style="margin-top:36px;">
       <span class="mono label">AND, MOST IMPORTANTLY</span>
       <div class="chip-row">
-        <span class="chip">Jasmine — Pomeranian, chief of morale</span>
+        <span class="chip jasmine-trigger" data-open-jasmine>Jasmine — Pomeranian, chief of morale</span>
         <span class="chip">Coffee, always</span>
         <span class="chip">K-pop, P-pop &amp; OPM</span>
       </div>
@@ -832,6 +990,7 @@
     <h2 class="reveal">Let's build something worth looking at.</h2>
     <div class="cta-row">
       <a class="btn btn-primary" href="mailto:kxpotenciano@gmail.com">Email me</a>
+      <a class="btn btn-ghost view-resume-trigger" data-view-resume>View résumé</a>
       <a class="btn btn-ghost" href="Kirk-Potenciano-Resume.pdf" download>Download résumé</a>
     </div>
 
@@ -897,6 +1056,92 @@
     "%cAlso a professional LE SSERAFIM stan and part-time Uma Musume trainer. Jasmine the Pomeranian approves of this console message.",
     "color:#6f6f6f;"
   );
+
+  // ---------- Boot sequence (once per browser session) ----------
+  (function(){
+    const bootEl = document.getElementById('boot');
+    const textEl = document.getElementById('bootText');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const alreadyBooted = sessionStorage.getItem('kxpBooted');
+
+    if (alreadyBooted || reduced) {
+      bootEl.classList.add('hide');
+      return;
+    }
+
+    const lines = [
+      "> booting kirk.exe ...",
+      "> loading personality modules ... done",
+      "> importing coffee.dll ... done",
+      "> checking for Jasmine.exe ... found, tail wagging",
+      "> ready."
+    ];
+
+    let li = 0, ci = 0, out = "";
+
+    function typeBoot(){
+      if (li >= lines.length){
+        setTimeout(() => bootEl.classList.add('hide'), 450);
+        sessionStorage.setItem('kxpBooted', '1');
+        return;
+      }
+      const line = lines[li];
+      if (ci <= line.length){
+        textEl.innerHTML = out + line.slice(0, ci) + '<span class="boot-cursor"></span>';
+        ci++;
+        setTimeout(typeBoot, 16);
+      } else {
+        out += line + "\n";
+        li++; ci = 0;
+        setTimeout(typeBoot, 220);
+      }
+    }
+    typeBoot();
+  })();
+
+  // ---------- Résumé preview modal ----------
+  (function(){
+    const modal = document.getElementById('resumeModal');
+    const frame = document.getElementById('resumeFrame');
+    const resumeUrl = "RESUME - POTENCIANO KIRK XAVIER.pdf";
+    let loaded = false;
+
+    function openModal(){
+      if (!loaded){ frame.src = resumeUrl; loaded = true; }
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(){
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('[data-view-resume]').forEach(el => {
+      el.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+    });
+    modal.querySelectorAll('[data-close]').forEach(el => {
+      el.addEventListener('click', closeModal);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+    });
+  })();
+
+  // ---------- Jasmine popup ----------
+  (function(){
+    const modal = document.getElementById('jasmineModal');
+    function open(){ modal.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function close(){ modal.classList.remove('open'); document.body.style.overflow = ''; }
+    document.querySelectorAll('[data-open-jasmine]').forEach(el => {
+      el.addEventListener('click', open);
+    });
+    modal.querySelectorAll('[data-close-jasmine]').forEach(el => {
+      el.addEventListener('click', close);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('open')) close();
+    });
+  })();
 </script>
 
 </body>
