@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kirk Potenciano — Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#151515;
+    --paper:#FAFAF9;
+    --white:#ffffff;
+    --blue:#A9BFCE;
+    --blue-soft:#CBDAE2;
+    --blue-deep:#4C6A7D;
+    --blue-ink:#22333D;
+    --gray-mid:#6f6f6f;
+    --gray-line:#dcdcdc;
+    --gray-soft:#f4f4f4;
+    --line-on-blue:rgba(21,21,21,0.16);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--blue-deep);color:var(--white);}
+
+  .wrap{max-width:1100px;margin:0 auto;padding:0 40px;}
+  .mono{font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:0.02em;}
+
+  /* ---------- Grain overlay (used inside blue sections) ---------- */
+  .grain{
+    position:absolute;inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity:0.05;
+    mix-blend-mode:overlay;
+    pointer-events:none;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(250,250,249,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--gray-line);
+  }
+  .header-inner{display:flex;justify-content:space-between;align-items:center;height:64px;}
+  .logo{font-family:'Fraunces',serif;font-weight:600;font-size:19px;}
+  .logo .dot{color:var(--blue-deep);}
+  nav{display:flex;gap:28px;}
+  nav a{color:var(--gray-mid);transition:color .15s ease;position:relative;}
+  nav a::after{
+    content:"";position:absolute;left:0;bottom:-4px;width:0;height:1px;
+    background:var(--blue-deep);transition:width .2s ease;
+  }
+  nav a:hover{color:var(--ink);}
+  nav a:hover::after{width:100%;}
+  .nav-icon{
+    display:inline-block;
+    width:0;opacity:0;
+    overflow:hidden;
+    transition:width .2s ease, opacity .2s ease, margin .2s ease;
+    vertical-align:-1px;
+  }
+  nav a:hover .nav-icon{width:1.1em;opacity:1;margin-right:4px;}
+
+  /* ---------- Hero (blue block) ---------- */
+  .hero{
+    position:relative;
+    background:var(--blue);
+    padding:130px 0 100px;
+    overflow:hidden;
+    isolation:isolate;
+    cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M14 2c1 5-4 6-4 10a4 4 0 0 0 8 0c2 2 2 5 0 8-2 2-5 3-8 1-4-2.5-5-8-1-13 1.5-2 4-3.5 5-6z' fill='%2322333D'/%3E%3C/svg%3E") 14 14, auto;
+  }
+  .hero a, .hero button, .hero .btn{cursor:pointer;}
+  .blob{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(70px);
+    z-index:-1;
+    opacity:.55;
+  }
+  .blob-1{
+    width:520px;height:520px;
+    background:radial-gradient(circle at 30% 30%, #EAF1F5, transparent 70%);
+    top:-160px;right:-120px;
+    animation:drift1 22s ease-in-out infinite alternate;
+  }
+  .blob-2{
+    width:420px;height:420px;
+    background:radial-gradient(circle at 60% 40%, var(--blue-deep), transparent 70%);
+    bottom:-200px;left:-140px;
+    opacity:.35;
+    animation:drift2 26s ease-in-out infinite alternate;
+  }
+  @keyframes drift1{
+    0%{transform:translate(0,0) scale(1);}
+    100%{transform:translate(-40px,50px) scale(1.12);}
+  }
+  @keyframes drift2{
+    0%{transform:translate(0,0) scale(1);}
+    100%{transform:translate(50px,-30px) scale(1.08);}
+  }
+
+  .hero-top{
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:50px;
+    align-items:end;
+  }
+  .hero-photo{
+    position:relative;
+    justify-self:end;
+    width:100%;
+    max-width:340px;
+    opacity:0;
+    animation:rise .9s cubic-bezier(.2,.7,.2,1) .18s forwards;
+  }
+  .hero-photo img{
+    display:block;
+    width:100%;
+    height:auto;
+    position:relative;
+    z-index:1;
+  }
+  .hero-photo::before{
+    content:"";
+    position:absolute;
+    inset:14px -14px -14px 14px;
+    border:1px solid var(--line-on-blue);
+    z-index:0;
+  }
+  .hero .eyebrow{color:var(--blue-ink);opacity:.8;margin-bottom:24px;display:block;}
+  .hero h1{
+    font-family:'Fraunces',serif;font-weight:600;
+    font-size:clamp(40px,7vw,88px);
+    line-height:0.98;letter-spacing:-0.02em;
+    color:var(--ink);
+    max-width:12ch;
+    opacity:0;transform:translateY(16px);
+    animation:rise .8s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  .hero .role{
+    font-family:'Fraunces',serif;font-style:italic;font-weight:400;
+    font-size:clamp(20px,3vw,28px);
+    color:var(--blue-ink);
+    margin-top:18px;
+    opacity:0;transform:translateY(16px);
+    animation:rise .8s cubic-bezier(.2,.7,.2,1) .12s forwards;
+    min-height:1.3em;
+  }
+  .role-cursor{
+    display:inline-block;width:2px;height:0.9em;
+    background:var(--blue-ink);
+    margin-left:2px;vertical-align:-2px;
+    animation:blink 1s step-end infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+  @keyframes rise{to{opacity:1;transform:translateY(0);}}
+
+  .hero-bottom{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:40px;margin-top:60px;flex-wrap:wrap;
+  }
+  .hero-blurb{max-width:46ch;color:var(--blue-ink);}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:13px 24px;font-size:14px;font-weight:500;white-space:nowrap;
+    border:1px solid var(--ink);
+    transition:background .18s ease, color .18s ease, transform .18s ease;
+  }
+  .btn-primary{background:var(--ink);color:var(--white);border-color:var(--ink);}
+  .btn-primary:hover{background:var(--blue-ink);transform:translateY(-1px);}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--ink);}
+  .btn-ghost:hover{background:var(--ink);color:var(--blue-soft);transform:translateY(-1px);}
+
+  /* ---------- Section shells ---------- */
+  section{padding:80px 0;position:relative;}
+  .band-white{background:var(--paper);}
+  .band-blue{background:var(--blue);position:relative;overflow:hidden;}
+  .band-deep{background:var(--blue-ink);color:var(--paper);}
+
+  .section-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:48px;gap:20px;}
+  .section-head h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,4vw,38px);}
+  .section-index{color:var(--gray-mid);}
+  .section-index::before{content:"LVL ";opacity:.6;}
+  .band-blue .section-index,.band-blue .label{color:var(--blue-ink);}
+  .band-deep .section-index{color:var(--blue-soft);}
+
+  /* Reveal-on-scroll (single orchestrated moment per section head) */
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in-view{opacity:1;transform:translateY(0);}
+
+  /* ---------- About ---------- */
+  .about-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:60px;}
+  .about-grid p{font-size:18px;max-width:52ch;color:#1c1c1c;}
+  .about-grid p + p{margin-top:20px;}
+  .status-card{
+    border:1px solid var(--gray-line);
+    background:var(--white);
+    padding:24px;height:fit-content;
+    box-shadow:6px 6px 0 var(--blue-soft);
+  }
+  .status-card .dot{
+    width:8px;height:8px;border-radius:50%;background:var(--blue-deep);
+    display:inline-block;margin-right:8px;
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+  .status-card .label{color:var(--gray-mid);margin-bottom:6px;}
+  .status-card .value{font-family:'Fraunces',serif;font-size:19px;margin-bottom:20px;}
+  .status-card .value:last-child{margin-bottom:0;}
+  .status-card .value a:hover{color:var(--blue-deep);}
+
+  /* ---------- Experience (blue band) ---------- */
+  .job{
+    display:grid;grid-template-columns:160px 1fr;gap:30px;
+    padding:28px 0;border-top:1px solid var(--line-on-blue);
+  }
+  .job:last-child{border-bottom:none;}
+  .job .dates{color:var(--blue-ink);opacity:.75;}
+  .job h3{font-family:'Fraunces',serif;font-weight:600;font-size:21px;margin-bottom:4px;}
+  .job .place{color:var(--blue-ink);opacity:.8;margin-bottom:14px;display:block;}
+  .job ul{padding-left:18px;color:var(--ink);}
+  .job li{margin-bottom:6px;}
+  .job li::marker{color:var(--blue-deep);}
+
+  .job-links{
+    display:flex;flex-wrap:wrap;gap:10px;
+    margin-top:18px;
+  }
+  .job-link{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:8px 14px;
+    border:1px solid var(--line-on-blue);
+    color:var(--blue-ink);
+    font-size:12.5px;
+    background:rgba(255,255,255,0.35);
+    transition:background .15s ease, border-color .15s ease, transform .15s ease;
+  }
+  .job-link:hover{
+    background:var(--white);
+    border-color:var(--blue-ink);
+    transform:translateY(-1px);
+  }
+
+  /* ---------- Selected Work (banner gallery) ---------- */
+  .work-scroll{
+    display:flex;
+    gap:20px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    padding-bottom:14px;
+    margin:0 -40px;
+    padding-left:40px;
+    padding-right:40px;
+  }
+  .work-scroll::-webkit-scrollbar{height:6px;}
+  .work-scroll::-webkit-scrollbar-thumb{background:var(--gray-line);}
+  .work-card{
+    flex:0 0 auto;
+    width:min(78vw, 480px);
+    scroll-snap-align:start;
+    border:1px solid var(--gray-line);
+    background:var(--white);
+    overflow:hidden;
+    display:block;
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .work-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(76,106,125,0.16);}
+  .work-card .img-wrap{
+    height:190px;
+    overflow:hidden;
+    background:var(--gray-soft);
+  }
+  .work-card.square{width:min(58vw, 300px);}
+  .work-card.square .img-wrap{
+    height:auto;
+    aspect-ratio:1/1;
+  }
+  .work-group{margin-bottom:44px;}
+  .work-group:last-child{margin-bottom:0;}
+  .work-group-label{
+    color:var(--blue-deep);
+    display:block;
+    margin-bottom:16px;
+  }
+  .work-card img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform .4s ease;
+  }
+  .work-card:hover img{transform:scale(1.04);}
+  .work-card .cap{padding:14px 18px 18px;}
+  .work-card .cap .brand{color:var(--blue-deep);display:block;margin-bottom:2px;}
+  .work-card .cap .desc{color:var(--gray-mid);font-size:13.5px;}
+  .work-card .cap .view{
+    display:inline-block;margin-top:8px;color:var(--blue-deep);
+    font-size:11.5px;opacity:.75;
+  }
+  .work-card:hover .cap .view{opacity:1;}
+  .work-hint{color:var(--gray-mid);margin-bottom:28px;display:block;max-width:60ch;}
+
+  /* ---------- Projects ---------- */
+  .project-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:1px;
+    background:var(--gray-line);border:1px solid var(--gray-line);
+  }
+  .project-card{
+    background:var(--white);padding:0;
+    transition:transform .25s ease, box-shadow .25s ease;
+    position:relative;
+  }
+  .project-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(76,106,125,0.18);z-index:2;}
+  .project-thumb{
+    height:120px;
+    background:
+      linear-gradient(135deg, var(--blue) 0%, var(--blue-deep) 100%);
+    position:relative;overflow:hidden;
+  }
+  .project-thumb::after{
+    content:"";position:absolute;inset:0;
+    background:repeating-linear-gradient(45deg, rgba(255,255,255,0.08) 0 2px, transparent 2px 14px);
+  }
+  .project-body{padding:28px 32px 32px;}
+  .project-card .tag{color:var(--blue-deep);display:block;margin-bottom:14px;}
+  .project-card h3{font-family:'Fraunces',serif;font-weight:600;font-size:22px;margin-bottom:12px;}
+  .project-card p{color:#2b2b2b;margin-bottom:16px;}
+  .project-card .edit-note{color:var(--gray-mid);font-style:italic;font-size:14px;}
+
+  /* ---------- Skills ---------- */
+  .skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:36px 60px;}
+  .skill-group .label{color:var(--gray-mid);margin-bottom:12px;display:block;}
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    border:1px solid var(--gray-line);
+    background:var(--white);
+    padding:7px 14px;font-size:13.5px;
+    box-shadow:2px 2px 0 var(--gray-line);
+    transition:border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+  }
+  .chip:hover{border-color:var(--blue-deep);box-shadow:2px 2px 0 var(--blue);transform:translate(-1px,-1px);}
+
+  /* ---------- Things I like (deep band) ---------- */
+  .band-deep .like-note{color:var(--blue-soft);margin-bottom:24px;max-width:60ch;font-style:italic;}
+  .band-deep .skill-group .label{color:var(--blue-soft);opacity:.85;}
+  .now-playing{
+    display:inline-flex;align-items:center;gap:10px;
+    color:var(--blue-soft);opacity:.85;
+    font-size:11.5px;margin-bottom:18px;
+  }
+  .eq{display:inline-flex;align-items:flex-end;gap:2px;height:12px;}
+  .eq span{
+    width:2.5px;background:var(--blue-soft);
+    animation:eqbounce 1.1s ease-in-out infinite;
+  }
+  .eq span:nth-child(1){height:40%;animation-delay:0s;}
+  .eq span:nth-child(2){height:100%;animation-delay:.2s;}
+  .eq span:nth-child(3){height:65%;animation-delay:.4s;}
+  .eq span:nth-child(4){height:85%;animation-delay:.1s;}
+  @keyframes eqbounce{0%,100%{transform:scaleY(.4);}50%{transform:scaleY(1);}}
+  .band-deep .chip{
+    background:transparent;color:var(--paper);
+    border:1px solid rgba(250,250,249,0.28);
+    box-shadow:none;
+  }
+  .band-deep .chip:hover{border-color:var(--blue-soft);background:rgba(255,255,255,0.06);transform:translate(-1px,-1px);}
+  .chip-link{cursor:pointer;}
+  .band-deep .chip-link:hover{border-color:var(--blue);color:var(--white);}
+
+  /* ---------- Education / Awards ---------- */
+  .edu-awards{display:grid;grid-template-columns:1fr 1fr;gap:60px;}
+  .edu-item{margin-bottom:28px;}
+  .edu-item h3{font-family:'Fraunces',serif;font-weight:600;font-size:19px;margin-bottom:2px;}
+  .edu-item .place{color:var(--gray-mid);margin-bottom:4px;display:block;}
+  .edu-item .dates{color:var(--gray-mid);}
+  .award-list{list-style:none;}
+  .award-list li{
+    padding:12px 0;border-top:1px solid var(--gray-line);
+    display:flex;gap:14px;align-items:baseline;
+  }
+  .award-list li:last-child{border-bottom:1px solid var(--gray-line);}
+  .award-list .yr{color:var(--blue-deep);flex-shrink:0;width:50px;}
+  .award-list .trophy{margin-right:2px;}
+  .achievement-label{
+    display:block;font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;letter-spacing:.05em;
+    color:var(--blue-deep);opacity:.7;margin-bottom:2px;
+  }
+
+  /* ---------- Footer / Contact (deep band) ---------- */
+  footer{padding:90px 0 60px;position:relative;overflow:hidden;}
+  footer h2{
+    font-family:'Fraunces',serif;font-weight:600;
+    font-size:clamp(32px,6vw,58px);max-width:16ch;margin-bottom:36px;
+  }
+  .footer-row{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;
+    margin-top:60px;padding-top:24px;
+    border-top:1px solid rgba(250,250,249,0.2);
+    color:var(--blue-soft);
+  }
+  .footer-links{display:flex;gap:22px;}
+  .footer-links a:hover{color:var(--white);}
+  footer .btn-primary{background:var(--blue-soft);color:var(--blue-ink);border-color:var(--blue-soft);}
+  footer .btn-primary:hover{background:var(--white);}
+  footer .btn-ghost{color:var(--paper);border-color:rgba(250,250,249,0.5);}
+  footer .btn-ghost:hover{background:var(--paper);color:var(--blue-ink);}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:760px){
+    .wrap{padding:0 22px;}
+    .hero{padding:100px 0 70px;}
+    .hero-top{grid-template-columns:1fr;}
+    .hero-photo{justify-self:center;max-width:220px;order:-1;margin-bottom:28px;}
+    .about-grid,.edu-awards{grid-template-columns:1fr;}
+    .skills-grid{grid-template-columns:1fr;}
+    .project-grid{grid-template-columns:1fr;}
+    .job{grid-template-columns:1fr;gap:8px;}
+    nav{gap:16px;}
+    nav a{font-size:11.5px;}
+    .header-inner{height:58px;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .hero h1,.hero .role{animation:none;opacity:1;transform:none;}
+    .status-card .dot{animation:none;}
+    .blob-1,.blob-2{animation:none;}
+    .reveal{opacity:1;transform:none;transition:none;}
+    .eq span{animation:none;height:70%;}
+  }
+
+  a:focus-visible,.btn:focus-visible{outline:2px solid var(--blue-deep);outline-offset:3px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-inner">
+    <div class="logo">KXP<span class="dot">.</span></div>
+    <nav class="mono">
+      <a href="#about"><span class="nav-icon">🖤</span>ABOUT</a>
+      <a href="#work"><span class="nav-icon">💼</span>WORK</a>
+      <a href="#projects"><span class="nav-icon">🛠️</span>PROJECTS</a>
+      <a href="#skills"><span class="nav-icon">⚡</span>SKILLS</a>
+      <a href="#like"><span class="nav-icon">🎮</span>LIKES</a>
+      <a href="#contact"><span class="nav-icon">✉️</span>CONTACT</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="grain"></div>
+  <div class="wrap" style="position:relative;">
+    <div class="hero-top">
+      <div>
+        <span class="mono eyebrow">Antipolo City / Manila, Philippines</span>
+        <h1>Kirk Xavier<br>Potenciano</h1>
+        <p class="role" id="roleText">Developer with an eye for design.<span class="role-cursor"></span></p>
+      </div>
+      <div class="hero-photo">
+        <img src="profile-duotone.jpg" alt="Portrait of Kirk Xavier Potenciano">
+      </div>
+    </div>
+
+    <div class="hero-bottom">
+      <p class="hero-blurb">
+        I build things at the intersection of code and commerce — three years spent shipping storefronts, landing pages, and product catalogs for a national retail brand, now looking for the next thing that asks more of the "creative" half of that equation.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="RESUME - POTENCIANO KIRK XAVIER.pdf" download>Download résumé</a>
+        <a class="btn btn-ghost" href="#contact">Get in touch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="band-white">
+  <div class="wrap about-grid">
+    <div>
+      <h2 class="reveal" style="font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,4vw,38px);margin-bottom:28px;">About</h2>
+      <p>I'm a Computer Science graduate specializing in Software Engineering, though my first job pulled me sideways into e-commerce — managing Shopify catalogs, syncing listings across Shopee, Lazada and TikTok Shop, and building the landing pages that sat underneath it all.</p>
+      <p>That work taught me a lot about how design, deadlines, and real customers actually behave — but I'm happiest when I'm building the interface itself, not just the campaign around it. I just left that role to look for something that leans further into frontend development and design.</p>
+    </div>
+    <div class="status-card mono">
+      <div class="label">STATUS</div>
+      <div class="value"><span class="dot"></span>Open to work</div>
+      <div class="label">BASED IN</div>
+      <div class="value">Antipolo City, Rizal</div>
+      <div class="label">CURRENT BUFF</div>
+      <div class="value" style="font-size:15px;">+2 Caffeine, +1 Determination</div>
+      <div class="label">CONTACT NUMBER</div>
+      <div class="value" style="font-size:15px;">+63 0917 110 3996</div>
+      <div class="label">EMAIL</div>
+      <div class="value" style="font-size:15px;margin-bottom:0;"><a href="mailto:kxpotenciano@gmail.com">kxpotenciano@gmail.com</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="work" class="band-blue">
+  <div class="grain"></div>
+  <div class="wrap" style="position:relative;">
+    <div class="section-head reveal">
+      <h2>Experience</h2>
+      <span class="mono section-index">01</span>
+    </div>
+
+    <div class="job">
+      <span class="mono dates">MAY 2025<br>– SEP 2026</span>
+      <div>
+        <h3>Web Developer</h3>
+        <span class="place">Orion Cepheid Inc. (Datablitz), Manila</span>
+        <ul>
+          <li>Managed the full product catalog lifecycle on Shopify — standard listings, pre-orders, and tech/gaming merchandise.</li>
+          <li>Coordinated multi-channel operations, syncing listings across Shopee, Lazada, and TikTok Shop.</li>
+          <li>Optimized frontend UX on key site sections, including pre-order pages, the career portal, and store locators.</li>
+          <li>Designed promotional banners and product imagery in Photoshop to keep the brand consistent.</li>
+          <li>Built custom landing pages with PageFly to support marketing campaigns.</li>
+        </ul>
+        <div class="job-links mono">
+          <span style="color:var(--blue-ink);opacity:.6;align-self:center;margin-right:2px;">SITE SECTIONS I WORKED ON:</span>
+          <a class="job-link" href="https://ecommerce.datablitz.com.ph/pages/pre-orders" target="_blank" rel="noopener">Pre-Order Hub ↗</a>
+          <a class="job-link" href="https://ecommerce.datablitz.com.ph/pages/careers" target="_blank" rel="noopener">Career Portal ↗</a>
+          <a class="job-link" href="https://ecommerce.datablitz.com.ph/pages/db-store-locations" target="_blank" rel="noopener">Store Locator ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="job">
+      <span class="mono dates">MAR 2023<br>– MAY 2023</span>
+      <div>
+        <h3>Front-End Developer Intern</h3>
+        <span class="place">Questronix Corp., Makati</span>
+      </div>
+    </div>
+
+    <div class="job">
+      <span class="mono dates">SEP 2022<br>– DEC 2022</span>
+      <div>
+        <h3>Front-End Developer Intern</h3>
+        <span class="place">DSV — Transport and Logistics, Parañaque</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="selected-work" class="band-white">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Selected Work</h2>
+      <span class="mono section-index">02</span>
+    </div>
+    <span class="mono work-hint">Promotional banners for tech, gaming merch, and pre-order collectibles — product pages, bundle offers, and brand launches. Cards with a live link open the actual listing.</span>
+
+    <div class="work-group">
+      <span class="mono work-group-label">WIDE BANNERS</span>
+      <div class="work-scroll">
+        <a class="work-card" href="https://ecommerce.datablitz.com.ph/collections/akko/products/akko-single-switch-tester-sheep-keycap-panda-keycap-capybara-keycap-corgi-keycap-lop-bunny-keycap-piggy-keycap-shark-keycap" target="_blank" rel="noopener">
+          <div class="img-wrap"><img src="banner-akko.jpg" alt="Akko Single Switch Tester promotional banner"></div>
+          <div class="cap mono">
+            <span class="brand">AKKO</span>
+            <span class="desc">Single Switch Tester — product banner</span>
+            <span class="view">View live listing ↗</span>
+          </div>
+        </a>
+
+        <a class="work-card" href="https://ecommerce.datablitz.com.ph/collections/pc-mac/products/kyomi-ryo-glass-mouse-pad-500x450x2-2mm" target="_blank" rel="noopener">
+          <div class="img-wrap"><img src="banner-kyomi.jpg" alt="Kyomi Ryo glass mousepad promotional banner"></div>
+          <div class="cap mono">
+            <span class="brand">KYOMI</span>
+            <span class="desc">"Ryo" glass mousepad — product banner</span>
+            <span class="view">View live listing ↗</span>
+          </div>
+        </a>
+
+        <a class="work-card" href="https://ecommerce.datablitz.com.ph/collections/pc-mac/products/yuki-aim-monokuro-cloth-mousepad-500x500x3-7mm" target="_blank" rel="noopener">
+          <div class="img-wrap"><img src="banner-yuki.jpg" alt="Yuki Aim Monokuro cloth mousepad promotional banner"></div>
+          <div class="cap mono">
+            <span class="brand">YUKI AIM</span>
+            <span class="desc">Monokuro cloth mousepad — product banner</span>
+            <span class="view">View live listing ↗</span>
+          </div>
+        </a>
+
+        <a class="work-card" href="https://ecommerce.datablitz.com.ph/collections/pc-mac/products/glsswrks-zane-glass-mousepad" target="_blank" rel="noopener">
+          <div class="img-wrap"><img src="banner-zane.jpg" alt="Zane mousepad promotional banner"></div>
+          <div class="cap mono">
+            <span class="brand">ZANE</span>
+            <span class="desc">Signature mousepad — product banner</span>
+            <span class="view">View live listing ↗</span>
+          </div>
+        </a>
+
+        <a class="work-card" href="https://ecommerce.datablitz.com.ph/collections/pc-mac/products/kanami-hoshino-limited-edition-glass-mousepad" target="_blank" rel="noopener">
+          <div class="img-wrap"><img src="banner-kanami.jpg" alt="Kanami Hoshino limited edition glass mousepad promotional banner"></div>
+          <div class="cap mono">
+            <span class="brand">KANAMI</span>
+            <span class="desc">"Hoshino" limited edition mousepad — product banner</span>
+            <span class="view">View live listing ↗</span>
+          </div>
+        </a>
+
+        <div class="work-card">
+          <div class="img-wrap"><img src="banner-ellie.jpg" alt="The Last of Us Ellie Real Elite Masterline statue pre-order banner"></div>
+          <div class="cap mono">
+            <span class="brand">REAL ELITE MASTERLINE</span>
+            <span class="desc">Ellie (The Last of Us) — pre-order banner</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="work-group">
+      <span class="mono work-group-label">SQUARE / PRODUCT CARDS</span>
+      <div class="work-scroll">
+        <div class="work-card square">
+          <div class="img-wrap"><img src="banner-tohka.jpg" alt="Prime 1 Studio Tohka Yatogami Succubus figure pre-order banner"></div>
+          <div class="cap mono">
+            <span class="brand">PRIME 1 STUDIO</span>
+            <span class="desc">Tohka Yatogami "Succubus" — pre-order banner</span>
+          </div>
+        </div>
+
+        <div class="work-card square">
+          <div class="img-wrap"><img src="banner-asus-proart.jpg" alt="ASUS ProArt PX13 laptop bundle promotional banner"></div>
+          <div class="cap mono">
+            <span class="brand">ASUS</span>
+            <span class="desc">ProArt PX13 — free bundle banner</span>
+          </div>
+        </div>
+
+        <div class="work-card square">
+          <div class="img-wrap"><img src="banner-omen.jpg" alt="HP OMEN Max 16 gaming laptop bundle promotional banner"></div>
+          <div class="cap mono">
+            <span class="brand">HP</span>
+            <span class="desc">OMEN Max 16 — free bundle banner</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="band-white">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Projects</h2>
+      <span class="mono section-index">03</span>
+    </div>
+
+    <div class="project-grid">
+      <div class="project-card">
+        <div class="project-thumb"></div>
+        <div class="project-body">
+          <span class="mono tag">iAcademy — 2022</span>
+          <h3>Aeins Games Credit</h3>
+          <p>An e-commerce website research project for distributing in-game currencies.</p>
+          <p class="edit-note">— Primarily used HTML, CSS, Bootstrap, PHP, JavaScript, and SQL for the website.</p>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-thumb"></div>
+        <div class="project-body">
+          <span class="mono tag">iAcademy — 2022–2023 · Thesis</span>
+          <h3>ADAPT (Alzheimer &amp; Dementia Patient Tracker)</h3>
+          <p>A medical device and companion website for tracking patients.</p>
+          <p class="edit-note">— Primarily used HTML, CSS, Bootstrap, PHP, JavaScript, and SQL for the website. Used Arduino to write and upload the code to the board.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="band-white" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Skills</h2>
+      <span class="mono section-index">04</span>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-group">
+        <span class="mono label">WEB DEVELOPMENT</span>
+        <div class="chip-row">
+          <span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span>
+          <span class="chip">React</span><span class="chip">Bootstrap</span><span class="chip">Tailwind CSS</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <span class="mono label">PROGRAMMING LANGUAGES</span>
+        <div class="chip-row">
+          <span class="chip">Python</span><span class="chip">Java</span><span class="chip">C++</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <span class="mono label">E-COMMERCE PLATFORMS</span>
+        <div class="chip-row">
+          <span class="chip">Shopify</span><span class="chip">Shopee</span><span class="chip">Lazada</span><span class="chip">TikTok Shop</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <span class="mono label">DESIGN &amp; MULTIMEDIA</span>
+        <div class="chip-row">
+          <span class="chip">Photoshop</span><span class="chip">Premiere</span><span class="chip">Canva</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="like" class="band-deep">
+  <div class="grain"></div>
+  <div class="wrap" style="position:relative;">
+    <div class="section-head reveal">
+      <h2>Things I like</h2>
+      <span class="mono section-index">05</span>
+    </div>
+    <div class="now-playing mono">
+      <span class="eq"><span></span><span></span><span></span><span></span></span>
+      now playing: whatever's on the "On Repeat" list below
+    </div>
+    <p class="like-note">A few things outside of work, for what it's worth.</p>
+
+    <div class="skills-grid" style="margin-bottom:8px;">
+      <div class="skill-group">
+        <span class="mono label">ON REPEAT</span>
+        <div class="chip-row">
+          <a class="chip chip-link" href="https://open.spotify.com/track/5MOIAV008posdOGmxiJBsi?si=aa751d9e48ab469f" target="_blank" rel="noopener">LE SSERAFIM — Made My Night ↗</a>
+          <a class="chip chip-link" href="https://open.spotify.com/track/6dTA6y0C2ReQklntzZl8l3?si=f411fbe683414536" target="_blank" rel="noopener">Taylor Swift — The Story of Us ↗</a>
+          <a class="chip chip-link" href="https://open.spotify.com/track/3o6ylNXak761Dlp5VMe6xw?si=7a251a6cc0b74000" target="_blank" rel="noopener">Maki — Saan? ↗</a>
+          <a class="chip chip-link" href="https://open.spotify.com/track/5ZuqV8q0TgfCGluxgPEkNT?si=bcb89c2100b64b6e" target="_blank" rel="noopener">NIKI — Oceans &amp; Engines ↗</a>
+          <a class="chip chip-link" href="https://open.spotify.com/track/6D0jXlvOC2llxT2xEEGQBh?si=5c890c7aa616412a" target="_blank" rel="noopener">Rob Deniel — Wala Na Bang Pag-Ibig ↗</a>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <span class="mono label">CURRENTLY PLAYING</span>
+        <div class="chip-row">
+          <span class="chip">Expedition 33</span>
+          <span class="chip">Monster Hunter Wilds</span>
+          <span class="chip">Arknights</span>
+          <span class="chip">Arknights Endfield</span>
+          <span class="chip">Uma Musume</span>
+          <span class="chip">League of Legends</span>
+          <span class="chip">Valorant</span>
+          <span class="chip">TFT</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <span class="mono label">ANIME</span>
+        <div class="chip-row">
+          <span class="chip">Katekyo Hitman Reborn</span>
+          <span class="chip">Naruto Shippuden</span>
+          <span class="chip">Attack on Titan</span>
+          <span class="chip">Jujutsu Kaisen</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <span class="mono label">STAMPS IN MY PASSPORT</span>
+        <div class="chip-row">
+          <span class="chip">Taiwan</span>
+          <span class="chip">Japan</span>
+          <span class="chip">Cebu</span>
+          <span class="chip">Palawan</span>
+          <span class="chip">Boracay</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-group" style="margin-top:36px;">
+      <span class="mono label">AND, MOST IMPORTANTLY</span>
+      <div class="chip-row">
+        <span class="chip">Jasmine — Pomeranian, chief of morale</span>
+        <span class="chip">Coffee, always</span>
+        <span class="chip">K-pop, P-pop &amp; OPM</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education" class="band-white">
+  <div class="wrap edu-awards">
+    <div>
+      <span class="mono label reveal" style="color:var(--gray-mid);display:block;margin-bottom:20px;">EDUCATION</span>
+      <div class="edu-item">
+        <h3>BS Computer Science, Software Engineering</h3>
+        <span class="place">iAcademy, Makati</span>
+        <span class="dates mono">JUL 2019 – AUG 2023</span>
+      </div>
+      <div class="edu-item">
+        <h3>STEM, Junior High School</h3>
+        <span class="place">University of Santo Tomas High School, Manila</span>
+        <span class="dates mono">AUG 2013 – JUN 2019</span>
+      </div>
+    </div>
+    <div>
+      <span class="mono label" style="color:var(--gray-mid);display:block;margin-bottom:20px;">AWARDS &amp; CERTIFICATIONS</span>
+      <ul class="award-list">
+        <li><span class="yr mono">2019</span> <div><span class="achievement-label">🏆 ACHIEVEMENT UNLOCKED</span>Certificate — Identifying and Safeguarding Personally Identifiable Information</div></li>
+        <li><span class="yr mono">2021</span> <div><span class="achievement-label">🏆 ACHIEVEMENT UNLOCKED</span>Certificate of Training — Cyber Security Awareness (PII)</div></li>
+        <li><span class="yr mono">Y1</span> <div><span class="achievement-label">⭐ TOP OF THE LEADERBOARD</span>Dean's Lister — iAcademy, 1st &amp; 3rd Semester</div></li>
+        <li><span class="yr mono">Y2</span> <div><span class="achievement-label">⭐ TOP OF THE LEADERBOARD</span>Dean's Lister — iAcademy, 2nd &amp; 3rd Semester</div></li>
+        <li><span class="yr mono">Y3</span> <div><span class="achievement-label">⭐ TOP OF THE LEADERBOARD</span>Dean's Lister — iAcademy</div></li>
+        <li><span class="yr mono">Y4</span> <div><span class="achievement-label">⭐ TOP OF THE LEADERBOARD</span>Dean's Lister — iAcademy, 1st &amp; 2nd Semester</div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer id="contact" class="band-deep">
+  <div class="grain"></div>
+  <div class="wrap" style="position:relative;">
+    <span class="mono eyebrow" style="color:var(--blue-soft);display:block;margin-bottom:20px;">06 — CONTACT</span>
+    <h2 class="reveal">Let's build something worth looking at.</h2>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="mailto:kxpotenciano@gmail.com">Email me</a>
+      <a class="btn btn-ghost" href="Kirk-Potenciano-Resume.pdf" download>Download résumé</a>
+    </div>
+
+    <div class="footer-row mono">
+      <span>© 2026 Kirk Xavier Potenciano · 🐾 Jasmine-approved</span>
+      <div class="footer-links">
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#projects">Projects</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in-view');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  revealEls.forEach(el => io.observe(el));
+
+  // Rotating hero role — a little personality, one line at a time
+  const roles = [
+    "Developer with an eye for design.",
+    "Professional Shopify wrangler.",
+    "LE SSERAFIM stan, highkey.",
+    "Currently grinding Arknights: Endfield.",
+    "Uma Musume trainer on the side.",
+    "Powered by coffee and muted blues.",
+    "Graphic Design is my passion (Is my Passion?!?!)"
+  ];
+  const roleEl = document.getElementById('roleText');
+  const cursorSpan = '<span class="role-cursor"></span>';
+  let ri = 0, ci = 0, deleting = false;
+
+  function typeRole(){
+    const full = roles[ri];
+    if(!deleting){
+      ci++;
+      if(ci > full.length){ deleting = true; setTimeout(typeRole, 1600); return; }
+    } else {
+      ci--;
+      if(ci < 0){ deleting = false; ri = (ri+1) % roles.length; ci = 0; }
+    }
+    roleEl.innerHTML = full.slice(0, ci) + cursorSpan;
+    setTimeout(typeRole, deleting ? 28 : 55);
+  }
+  if (roleEl && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    setTimeout(typeRole, 1400);
+  }
+
+  // A little something for anyone poking around in devtools
+  console.log(
+    "%cHey, fellow dev. 👋",
+    "font-size:14px;font-weight:bold;color:#4C6A7D;"
+  );
+  console.log(
+    "%cAlso a professional LE SSERAFIM stan and part-time Uma Musume trainer. Jasmine the Pomeranian approves of this console message.",
+    "color:#6f6f6f;"
+  );
+</script>
+
+</body>
+</html>
